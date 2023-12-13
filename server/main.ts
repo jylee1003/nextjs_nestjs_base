@@ -4,6 +4,7 @@ import { AppModule } from "./app/app.module";
 import * as http from "http";
 import { NextApiHandler } from "next";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { GlobalExceptionFilter } from './exception/global.exception.filter';
 
 export module Main {
     let app: INestApplication;
@@ -21,6 +22,8 @@ export module Main {
             const documnet = SwaggerModule.createDocument(app, config);
 
             SwaggerModule.setup('api', app, documnet);
+
+            app.useGlobalFilters(new GlobalExceptionFilter());
             
             await app.init();
         }
