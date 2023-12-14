@@ -1,6 +1,6 @@
 import { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app/app.module";
+import { AppModule } from "./app.module";
 import * as http from "http";
 import { NextApiHandler } from "next";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
@@ -17,6 +17,10 @@ export module Main {
                 .setTitle('Swagger Example')
                 .setDescription('Swagger study API description')
                 .setVersion('1.0.0')
+                .addBearerAuth(
+                    { type: 'http', scheme: 'bearer', bearerFormat: 'Token' },
+                    'access-token'
+                )
                 .build();
 
             const documnet = SwaggerModule.createDocument(app, config);

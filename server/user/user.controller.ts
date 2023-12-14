@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { User } from "@prisma/client";
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './user.entity';
@@ -12,7 +12,7 @@ export class UserController {
 
     @ApiOperation({ summary: '사용자 조회' })
     @Get("/:id")
-    async findUserById(@Param("id", ParseIntPipe) id: number): Promise<User | null> {
+    async findUserById(@Param("id") id: string): Promise<User | null> {
         return await this.userService.findUserById(id);
     }
 
@@ -41,7 +41,7 @@ export class UserController {
 
     @ApiOperation({ summary: '사용자 수정' })
     @Post("/update/:id")
-    async update(@Param("id", ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+    async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
         return await this.userService.update(id, {
             email: updateUserDto.email,
             name: updateUserDto.name

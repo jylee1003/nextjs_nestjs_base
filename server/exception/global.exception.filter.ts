@@ -1,14 +1,14 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { NextRequest, NextResponse } from 'next/server';
+import { Request, Response } from 'express';
 import { QueryFailedError } from "typeorm";
 import { Prisma } from '@prisma/client';
 
 @Catch() // ()를 공란으로 두어 모든 예외처리를 받을 수 있도록 하였다.
 export class GlobalExceptionFilter implements ExceptionFilter {
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<NextResponse>();
-    const request = ctx.getRequest<NextRequest>();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = (exception as any).message.message;
     let code = 'HttpException';

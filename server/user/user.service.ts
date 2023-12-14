@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { CreateUserDto, UpdateUserDto } from './user.entity';
 
 @Injectable()
 export class UserService {
     constructor(private readonly db: PrismaService) {}
 
-    async findUserById(id: number) {
+    async findUserById(id: string) {
         return await this.db.user.findUnique({
             where: {
                 id,
@@ -32,7 +32,7 @@ export class UserService {
         });
     }
 
-    async update(id: number, data: UpdateUserDto) {
+    async update(id: string, data: UpdateUserDto) {
         return await this.db.user.update({
             where: {
                 id,
